@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Game</title>
+  <style>
+    body {
+      background: url(intro.mp4);
+      background-color: #020000;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1{
+      top: 5%;
+      position: absolute;
+      border-radius: 10PX;
+      cursor: pointer;
+     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+    h1:hover{
+      color: #710202;
+      box-shadow: 0 0 20px #710202;
+      transition: box-shadow 0.3s ease-in-out;
+    }
+    video#bg-video {
+      
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+    }
+
+    #game-container {
+      font-size: 30px;
+      text-align: center;
+      z-index: 1;
+    }
+
+    #movie-poster {
+      border-radius: 20px;
+      display: block;
+      max-width: 100%;
+      height: auto;
+      border: 2px solid #333;
+      cursor: pointer;
+    }
+
+    #question-container {
+      text-align: center;
+      background-color: white;
+      border-radius: 20px ;
+      font-size: 20px;
+      margin-top: 20px;
+    }
+
+    #options-container {
+
+      color: #020000;
+      font-size: 20px;
+      margin-top: 10px;
+    }
+
+    .option {
+      display: inline-block;
+      border-radius: 10px;
+      font-size: 20px;
+      margin: 5px;
+      padding: 10px;
+      background-color: #710202;
+      color: #020000;
+      cursor: pointer;
+    }
+    
+
+    .option:hover {
+      background-color: #b0b0b0;
+    }
+
+    #result-container {
+      background-color: white;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    #retry{
+      margin-left: 50%;
+      margin-right: 50%;
+      margin-top: 10px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: medium;
+
+    }
+    @media only screen and (max-width: 600px) {
+    h1{
+      color: white;
+    }
+    h1:hover{
+      color: #710202;
+    }
+    }
+    </style>
+</head>
+<body>
+  <video style="display: none;" id="bg-video" autoplay>
+    <source src="outro.mp4" type="video/mp4">
+    
+  </video>
+  <audio src="Ratata-Ringtone-Mp3.mp3" id="bgm"></audio>
+  <h1>Welcome to the world of leo</h1>
+  <div id="game-container">
+    <img id="movie-poster" src="leo1.jpg" alt="Movie Poster" onclick="showQuestion()">
+    <div id="question-container" style="display: none;">
+      <p>Who is the lead actor in this movie?</p>
+      <div id="options-container">
+        <div class="option" onclick="checkAnswer('option1')">Leo</div>
+        <div class="option" onclick="checkAnswer('option2')">Parthiban</div>
+        <div class="option" onclick="checkAnswer('option3')">Vijay</div>
+        <div class="option" onclick="checkAnswer('option4')">Ajith</div>
+      </div>
+    </div>
+    <div id="result-container" style="display: none;"></div>
+    <button id="retry" style="display: none;" onclick="retry()">Retry</button>
+  </div>
+
+  <script>
+    const correctAnswer = 'option2';
+    const easterAnswer = 'option1';
+    let questionAnswered = false;
+
+    
+    function showQuestion() {
+      document.getElementById('question-container').style.display = 'block';
+      document.getElementById('result-container').style.display = 'none';
+      document.getElementById('retry').style.display = 'none';
+      
+      questionAnswered = false;
+      enableOptions();
+    }
+
+    function checkAnswer(selectedOption) {
+      if (questionAnswered) return;
+
+questionAnswered = true;
+
+      const resultContainer = document.getElementById('result-container');
+      if (selectedOption === correctAnswer) {
+        resultContainer.textContent = 'Correct! You guessed it right.';
+        document.getElementById('question-container').style.display = 'none';
+        document.getElementById('bg-video').style.display = 'block';
+        document.getElementById('options-container').style.display = 'none';
+        document.getElementById('movie-poster').style.display = 'none';
+      document.getElementById('result-container').style.display = 'none';
+        document.getElementById('bg-video').play();
+        disableOptions();
+      } else if (selectedOption === easterAnswer) {
+        resultContainer.textContent = 'Sonna Puriyadha da naa leo illa';
+      } else {
+        resultContainer.textContent = 'Oops! That\'s incorrect. Try again.';
+      }
+      resultContainer.style.display = 'block';
+      document.getElementById('retry').style.display = 'block';
+      disableOptions();
+    }
+
+    function retry() {
+      document.getElementById('question-container').style.display = 'block';
+      document.getElementById('result-container').style.display = 'none';
+      document.getElementById('retry').style.display = 'none';
+      questionAnswered = false;
+    }
+  </script>
+</body>
+</html>
